@@ -1,11 +1,14 @@
 {
-  "name": "tesoreria_frontend",
+  "name": "cartas-fianza-molina-frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
-    "build": "next build",
-    "start": "next start",
+    "dev": "next dev --webpack -H 0.0.0.0 -p 3050 --experimental-https --experimental-https-key ./certificates/lan-key.pem --experimental-https-cert ./certificates/lan.pem",
+    "dev:https": "next dev --webpack -H 0.0.0.0 -p 3050 --experimental-https --experimental-https-key ./certificates/lan-key.pem --experimental-https-cert ./certificates/lan.pem",
+    "dev:http": "next dev --webpack -H 0.0.0.0 -p 3050",
+    "build": "next build --webpack",
+    "start": "next start -H 0.0.0.0 -p 3050",
+    "start:pwa": "next build --webpack && next start -H 0.0.0.0 -p 3050",
     "lint": "eslint"
   },
   "dependencies": {
@@ -13,7 +16,9 @@
     "next": "16.2.6",
     "next-pwa": "^5.6.0",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sonner": "^2.0.8",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
