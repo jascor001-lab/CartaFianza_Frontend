@@ -162,7 +162,11 @@ export function buildBondsTemplate(): Blob {
   const book = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(book, sheet, "Inventario");
   const out = XLSX.write(book, { type: "array", bookType: "xlsx" }) as Uint8Array;
-  return new Blob([out], {
+  const ab = out.buffer.slice(
+    out.byteOffset,
+    out.byteOffset + out.byteLength,
+  ) as ArrayBuffer;
+  return new Blob([ab], {
     type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
   });
 }
