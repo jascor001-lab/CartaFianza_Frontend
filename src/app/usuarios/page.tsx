@@ -7,7 +7,7 @@ import { RequireAuth } from "@/components/auth/RequireAuth";
 const API =
   process.env.API_PROXY_TARGET?.replace(/\/$/, "") ||
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-  "http://127.0.0.1:3020";
+  "http://127.0.0.1:4006";
 
 async function fetchUsersServer(): Promise<AuthUser[] | null> {
   const jar = await cookies();

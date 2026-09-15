@@ -5,7 +5,7 @@ import withPWAInit from "next-pwa";
 const apiOrigin =
   process.env.API_PROXY_TARGET?.replace(/\/$/, "") ||
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-  "http://localhost:3020";
+  "http://localhost:4006";
 
 const withPWA = withPWAInit({
   dest: "public",

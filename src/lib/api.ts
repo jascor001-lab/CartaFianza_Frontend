@@ -1,13 +1,13 @@
 /**
  * En el navegador prioriza `/api` (proxy same-origin).
- * Si entras por IP en HTTP, también puede hablar directo con Nest :3020.
+ * Si entras por IP en HTTP, también puede hablar directo con Nest :4006.
  */
 function getApiBases(): string[] {
   if (!globalThis.window) {
     return [
       process.env.API_PROXY_TARGET?.replace(/\/$/, "") ||
         process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-        "http://127.0.0.1:3020",
+        "http://127.0.0.1:4006",
     ];
   }
 
@@ -20,7 +20,7 @@ function getApiBases(): string[] {
     hostname !== "localhost" &&
     hostname !== "127.0.0.1"
   ) {
-    bases.push(`http://${hostname}:3020`);
+    bases.push(`http://${hostname}:4006`);
   }
 
   return bases;

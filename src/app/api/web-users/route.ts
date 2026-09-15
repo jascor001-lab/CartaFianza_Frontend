@@ -4,7 +4,7 @@ import { TOKEN_KEY } from "@/lib/session-keys";
 const API =
   process.env.API_PROXY_TARGET?.replace(/\/$/, "") ||
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-  "http://127.0.0.1:3020";
+  "http://127.0.0.1:4006";
 
 function getToken(request: NextRequest) {
   return request.cookies.get(TOKEN_KEY)?.value || null;
@@ -46,7 +46,7 @@ async function proxyJson(
     return NextResponse.json(data, { status: res.status });
   } catch {
     return NextResponse.json(
-      { message: "No hay conexión con el backend (:3020)" },
+      { message: "No hay conexión con el backend (:4006)" },
       { status: 502 },
     );
   }

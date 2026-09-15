@@ -9,7 +9,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("admin123");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [hostLabel, setHostLabel] = useState("localhost:3050");
+  const [hostLabel, setHostLabel] = useState("localhost:4007");
 
   useEffect(() => {
     if (typeof window === "undefined") return;

@@ -3,15 +3,15 @@ import { NextRequest, NextResponse } from "next/server";
 const API =
   process.env.API_PROXY_TARGET?.replace(/\/$/, "") ||
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ||
-  "http://127.0.0.1:3020";
+  "http://127.0.0.1:4006";
 
 function appOrigin(request: NextRequest) {
   const rawHost =
     request.headers.get("x-forwarded-host") ||
     request.headers.get("host") ||
-    "localhost:3050";
+    "localhost:4007";
   // Nunca redirigir a 0.0.0.0 (Next con -H 0.0.0.0)
-  const host = rawHost.includes("0.0.0.0") ? "localhost:3050" : rawHost;
+  const host = rawHost.includes("0.0.0.0") ? "localhost:4007" : rawHost;
   const protoHeader = request.headers.get("x-forwarded-proto");
   const proto =
     protoHeader ||

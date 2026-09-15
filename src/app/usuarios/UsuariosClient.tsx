@@ -75,7 +75,7 @@ export function UsuariosClient({
       setError(
         err instanceof ApiError
           ? err.message
-          : "No se pudo cargar usuarios (¿API en :3020?)",
+          : "No se pudo cargar usuarios (¿API en :4006?)",
       );
     } finally {
       setLoading(false);
