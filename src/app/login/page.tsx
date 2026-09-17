@@ -5,16 +5,21 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function LoginPage() {
   const { user, token, ready, logout } = useAuth();
-  const [loginId, setLoginId] = useState("10000000");
-  const [password, setPassword] = useState("admin123");
+  const [loginId, setLoginId] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [hostLabel, setHostLabel] = useState("localhost:4007");
+  const [hostLabel, setHostLabel] = useState("");
+  const [unlock, setUnlock] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     setHostLabel(window.location.host);
+    // Limpia cualquier valor que el navegador haya autocompletado
+    setLoginId("");
+    setPassword("");
+    const t = window.setTimeout(() => setUnlock(true), 50);
 
     const params = new URLSearchParams(window.location.search);
     const reason = params.get("error");
@@ -24,9 +29,10 @@ export default function LoginPage() {
     if (reason === "auth") {
       setError("DNI/correo o contraseña incorrectos.");
     }
+
+    return () => window.clearTimeout(t);
   }, []);
 
-  // Misma regla en localhost e IP: si ya hay sesión → dashboard
   useEffect(() => {
     if (!ready) return;
     if (!(user || token)) return;
@@ -75,13 +81,35 @@ export default function LoginPage() {
 
         <p className="page-sub mb-6">
           Ingresa con tu DNI o correo institucional.
-          <br />
-          <span className="text-xs text-[var(--muted)]">
-            Acceso: https://{hostLabel}/login
-          </span>
+          {hostLabel ? (
+            <>
+              <br />
+              <span className="text-xs text-[var(--muted)]">
+                Acceso: https://{hostLabel}/login
+              </span>
+            </>
+          ) : null}
         </p>
 
-        {/* Mismo flujo en localhost e IP: POST servidor → cookies → dashboard */}
+        {/* Cebos para que el navegador no rellene DNI/contraseña reales */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: "-9999px",
+            height: 0,
+            overflow: "hidden",
+          }}
+        >
+          <input type="text" name="username" tabIndex={-1} autoComplete="username" />
+          <input
+            type="password"
+            name="password_fake"
+            tabIndex={-1}
+            autoComplete="current-password"
+          />
+        </div>
+
         <form
           action="/api/web-login"
           method="post"
@@ -98,9 +126,14 @@ export default function LoginPage() {
               name="login"
               required
               autoComplete="off"
+              autoCorrect="off"
+              autoCapitalize="off"
+              spellCheck={false}
+              readOnly={!unlock}
+              onFocus={() => setUnlock(true)}
               value={loginId}
               onChange={(e) => setLoginId(e.target.value)}
-              placeholder="10000000"
+              placeholder=""
               className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-emerald-400/50"
             />
           </label>
@@ -112,9 +145,12 @@ export default function LoginPage() {
               name="password"
               required
               minLength={6}
-              autoComplete="off"
+              autoComplete="new-password"
+              readOnly={!unlock}
+              onFocus={() => setUnlock(true)}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder=""
               className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 outline-none focus:border-emerald-400/50"
             />
           </label>
