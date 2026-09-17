@@ -9,13 +9,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [hostLabel, setHostLabel] = useState("");
   const [unlock, setUnlock] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    setHostLabel(window.location.host);
     // Limpia cualquier valor que el navegador haya autocompletado
     setLoginId("");
     setPassword("");
@@ -81,14 +79,6 @@ export default function LoginPage() {
 
         <p className="page-sub mb-6">
           Ingresa con tu DNI o correo institucional.
-          {hostLabel ? (
-            <>
-              <br />
-              <span className="text-xs text-[var(--muted)]">
-                Acceso: https://{hostLabel}/login
-              </span>
-            </>
-          ) : null}
         </p>
 
         {/* Cebos para que el navegador no rellene DNI/contraseña reales */}
